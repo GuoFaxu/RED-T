@@ -14,6 +14,7 @@ rice-rediff/outputs/
 reap/models/pretrained/
 reap/models/finetuned/
 reap/results/preds/
+reap/results/metrics/
 reap/results/logs_csv/
 reap/results/*/preds/
 reap/results/*/metrics/
