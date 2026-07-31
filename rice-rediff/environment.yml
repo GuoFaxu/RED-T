@@ -1,0 +1,13 @@
+name: rice-rediff
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10.13
+  - pip=24.3.1
+  - numpy=1.26.2
+  - pandas=2.1.3
+  - pyyaml=6.0.1
+  - pytorch=2.1.1
+  - pytorch-cuda=12.1

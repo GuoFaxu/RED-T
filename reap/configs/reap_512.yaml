@@ -1,0 +1,40 @@
+data:
+  all_csv: data/processed/all_data.csv
+  test_csv: data/processed/test_data.csv
+  sequence_length: 512
+  target_column: expression
+  group_column: chromosome
+
+model:
+  backbone: models/pretrained/plant-dnabert-6mer
+  tokenizer: plant-dnabert-6mer
+  kmer: 6
+  mlp_hidden1: 256
+  mlp_hidden2: 64
+  dropout: 0.15
+  layer_mix_k: 4
+  pool_windows: [8, 16, 32, 64]
+
+training:
+  folds: 5
+  split: GroupKFold
+  loss: huber
+  huber_delta: 0.35
+  epochs: 50
+  batch_size: 8
+  grad_accum: 2
+  seed: 42
+  lr_lora: 1.0e-5
+  lr_head: 1.0e-4
+  weight_decay: 0.02
+  warmup: 0.10
+  use_lora: true
+  lora_r: 16
+  lora_alpha: 64
+  lora_dropout: 0.10
+  lora_targets: query,key,value,dense
+  unfreeze_last_n_blocks: 2
+  rc_equivariant: true
+  rc_consist_lambda: 0.01
+  target_transform: zscore
+  calibration: isotonic

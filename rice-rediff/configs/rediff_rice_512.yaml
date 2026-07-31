@@ -1,0 +1,75 @@
+project_name: rice_enhancer_ddpm
+
+data:
+  input_csv: ../data/all_data.csv
+  sequence_col: sequence
+  seq_len: 512
+  val_frac: 0.10
+  split_seed: 42
+  max_n_frac: 0.20
+  pad_base: A
+  rc_prob: 0.5
+  jitter: 8
+
+model:
+  base_channels: 96
+  channel_mults: [1, 2, 4, 8]
+  num_res_blocks: 2
+  time_emb_dim: 512
+  time_emb_scale: 1.0
+  attention_resolutions: [1, 2]
+  norm: gn
+  num_groups: 32
+  dropout: 0.1
+  initial_pad: 0
+  out_init_conv_padding: 1
+
+diffusion:
+  timesteps: 1000
+  schedule_type: cosine
+  schedule_low: 0.0001
+  schedule_high: 0.02
+  loss_type: l2
+  pred_type: v
+  loss_weight_type: min_snr
+  min_snr_gamma: 2.0
+  ema_decay: 0.999
+  ema_start: 0
+  ema_update_rate: 1
+
+train:
+  device: auto
+  seed: 42
+  input_scale: pm1
+  learning_rate: 0.00015
+  eta_min_factor: 0.2
+  weight_decay: 0.05
+  batch_size: 512
+  accum_steps: 4
+  epochs: 3000
+  num_workers: 0
+  grad_clip: 1.0
+  amp: true
+  amp_dtype: bf16
+  aux_temp: 1.0
+  log_rate: 1
+  checkpoint_rate: 100
+  milestone_epochs: [2, 20, 50, 100, 200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2200, 2400, 2600, 2800, 3000]
+
+sample:
+  num_samples: 500
+  chunk_size: 128
+  amp: true
+  amp_dtype: bf16
+  decode_strategy: sample
+  decode_temp: 0.90
+
+aux_schedule:
+  - end_epoch: 200
+    weights: {mono: 0.30, mono_global: 0.05, markov1: 0.00, tri: 0.00, rc: 0.02}
+  - end_epoch: 800
+    weights: {mono: 0.20, mono_global: 0.05, markov1: 0.15, tri: 0.05, rc: 0.02}
+  - end_epoch: 1200
+    weights: {mono: 0.10, mono_global: 0.05, markov1: 0.10, tri: 0.10, rc: 0.02}
+  - end_epoch: 3000
+    weights: {mono: 0.05, mono_global: 0.05, markov1: 0.05, tri: 0.05, rc: 0.02}

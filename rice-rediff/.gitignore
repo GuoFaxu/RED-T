@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+outputs/
+sequences/
+results/
+*.pt
+*.pth
+*.part
+!checkpoints/
+data/
+!examples/
