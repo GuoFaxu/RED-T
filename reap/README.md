@@ -9,7 +9,6 @@ REAP predicts rice enhancer activity from 512 bp DNA sequences using Plant DNABE
 - `scripts/predict_reap.py`: inference entry point.
 - `configs/reap_512.yaml`: run configuration.
 - `examples/example_sequences.fasta`: example inference input.
-- `results/metrics/report_5fold_20251121_093312.json`: reported model metrics.
 - `results/extras/global_scaler_20251121_093312.json`: target scaling parameters.
 
 ## Installation
@@ -55,13 +54,3 @@ python scripts/predict_reap.py \
   --results_root results \
   --folds auto
 ```
-
-## Reported Performance
-
-Equal-weight ensemble on the independent test set:
-
-- RMSE: 0.3763
-- MAE: 0.2792
-- R2: 0.4862
-- Pearson: 0.6986
-- Spearman: 0.6554
